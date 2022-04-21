@@ -1,2 +1,4 @@
 -R .. Pruvaro
  
+../Mathematics/Sets/EnsemblesImplicit.v
+../Mathematics/Sets/EnsemblesNotations.v
