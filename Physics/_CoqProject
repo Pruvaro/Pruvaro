@@ -1,2 +1,5 @@
 -R .. Pruvaro
  
+../Physics/MRUV/Definition.v
+../Physics/MRUV/Equations.v
+../Physics/MRUV/Uniqueness.v

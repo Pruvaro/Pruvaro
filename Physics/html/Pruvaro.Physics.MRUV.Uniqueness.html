@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<link href="coqdocjs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="coqdocjs.js"></script>
+</head>
+
+<body onload="document.getElementById('content').focus()">
+  <div id="header">
+    <span class="left">
+      <span class="modulename"> <script> document.write(document.title) </script> </span>
+    </span>
+
+    <span class="button" id="toggle-proofs"></span>
+
+    <span class="right">
+      <a href="../">Project Page</a>
+      <a href="./indexpage.html"> Index </a>
+      <a href="./toc.html"> Table of Contents </a>
+    </span>
+</div>
+    <div id="content" tabindex="-1" onblur="document.getElementById('content').focus()">
+    <div id="main">
+<h1 class="libtitle">Pruvaro.Physics.MRUV.Uniqueness</h1>
+
+<div class="code">
+<span class="id" title="keyword">Set Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">From</span> <span class="id" title="var">mathcomp</span> <span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="library">all_ssreflect</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Reals.html#"><span class="id" title="library">Coq.Reals.Reals</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.micromega.Lra.html#"><span class="id" title="library">Lra</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#"><span class="id" title="library">Pruvaro.Physics.MRUV.Definition</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local Open</span> <span class="id" title="keyword">Scope</span> <span class="id" title="var">R_scope</span>.<br/>
+</div>
+
+<div class="doc">
+<a id="lab2"></a><h1 class="section">Unicidade</h1>
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Section</span> <a id="Uniqueness" class="idref" href="#Uniqueness"><span class="id" title="section">Uniqueness</span></a>.<br/>
+</div>
+
+<div class="doc">
+Nesse arquivo, provaremos alguns resultados a respeito da unicidade
+      dos modelos em MRUV. Por exemplo, provaremos que o valor da posição
+      inicial, da velocidade inicial, e da aceleração definem unívocamente
+      uma instância de um modelo MRUV, isto é, quaisquer dois modelos com
+      os mesmos valores iniciais descreverão a mesma dinâmica, sendo
+      então equivalentes ao considerar a relação <span class="inlinecode"><span class="id" title="var">MRUV.equiv</span></span>.
+
+<div class="paragraph"> </div>
+
+      Ao final, congregando todos esses resultados, provaremos uma versão
+      formal do Demônio de Laplace para o MRUV.
+  
+<div class="paragraph"> </div>
+
+ Em primeiro lugar, definiremos uma função que gera uma instância de
+      modelo MRUV dados três valores que corresponderão às condições
+      iniciais e à aceleração.
+
+<div class="paragraph"> </div>
+
+      Para tanto, definimos uma função que produz a função posição, e
+      outra que produz a função velocidade.
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="xFromInit" class="idref" href="#xFromInit"><span class="id" title="definition">xFromInit</span></a> (<a id="x0:1" class="idref" href="#x0:1"><span class="id" title="binder">x0</span></a> <a id="v0:2" class="idref" href="#v0:2"><span class="id" title="binder">v0</span></a> <a id="a:3" class="idref" href="#a:3"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <a id="t:4" class="idref" href="#t:4"><span class="id" title="binder">t</span></a> =&gt; <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:1"><span class="id" title="variable">x0</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#3e57074ab0a6a36b253e873a1bdac6ad"><span class="id" title="notation">+</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:2"><span class="id" title="variable">v0</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#e1dae7ed53bffa765009199d058dd327"><span class="id" title="notation">*</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#t:4"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#3e57074ab0a6a36b253e873a1bdac6ad"><span class="id" title="notation">+</span></a> 0.5 <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#e1dae7ed53bffa765009199d058dd327"><span class="id" title="notation">*</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:3"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#e1dae7ed53bffa765009199d058dd327"><span class="id" title="notation">*</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#e1dae7ed53bffa765009199d058dd327"><span class="id" title="notation">(</span></a><a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#t:4"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rfunctions.html#1fc859ef9f60fc2e3a52c48371d07707"><span class="id" title="notation">^</span></a> 2<a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#e1dae7ed53bffa765009199d058dd327"><span class="id" title="notation">)</span></a>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="vFromInit" class="idref" href="#vFromInit"><span class="id" title="definition">vFromInit</span></a> (<a id="v0:5" class="idref" href="#v0:5"><span class="id" title="binder">v0</span></a> <a id="a:6" class="idref" href="#a:6"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <a id="t:7" class="idref" href="#t:7"><span class="id" title="binder">t</span></a> =&gt; <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:5"><span class="id" title="variable">v0</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#3e57074ab0a6a36b253e873a1bdac6ad"><span class="id" title="notation">+</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:6"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#e1dae7ed53bffa765009199d058dd327"><span class="id" title="notation">*</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#t:7"><span class="id" title="variable">t</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Agora, definimos teoremas que provam que essas funçõs produzem
+      funções que satisfazem os axiomas.
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a id="xFromInit_correct" class="idref" href="#xFromInit_correct"><span class="id" title="lemma">xFromInit_correct</span></a> (<a id="x0:8" class="idref" href="#x0:8"><span class="id" title="binder">x0</span></a> <a id="v0:9" class="idref" href="#v0:9"><span class="id" title="binder">v0</span></a> <a id="a:10" class="idref" href="#a:10"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.position_axiom"><span class="id" title="definition">MRUV.position_axiom</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:8"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:9"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:10"><span class="id" title="variable">a</span></a> (<a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#xFromInit"><span class="id" title="definition">xFromInit</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:8"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:9"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:10"><span class="id" title="variable">a</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> [].<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Lemma</span> <a id="vFromInit_correct" class="idref" href="#vFromInit_correct"><span class="id" title="lemma">vFromInit_correct</span></a> (<a id="v0:11" class="idref" href="#v0:11"><span class="id" title="binder">v0</span></a> <a id="a:12" class="idref" href="#a:12"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.velocity_axiom"><span class="id" title="definition">MRUV.velocity_axiom</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:11"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:12"><span class="id" title="variable">a</span></a> (<a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#vFromInit"><span class="id" title="definition">vFromInit</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:11"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:12"><span class="id" title="variable">a</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> [].<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Com esses teoremas certificando nossas funções, podemos construir
+      a função que produz uma instância completa de modelo de MRUV.
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="mruvFromInit" class="idref" href="#mruvFromInit"><span class="id" title="definition">mruvFromInit</span></a> (<a id="x0:13" class="idref" href="#x0:13"><span class="id" title="binder">x0</span></a> <a id="v0:14" class="idref" href="#v0:14"><span class="id" title="binder">v0</span></a> <a id="a:15" class="idref" href="#a:15"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) : <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.model"><span class="id" title="record">MRUV.model</span></a> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <a id="x:16" class="idref" href="#x:16"><span class="id" title="binder">x</span></a> := <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#xFromInit"><span class="id" title="definition">xFromInit</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:13"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:14"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:15"><span class="id" title="variable">a</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <a id="v:17" class="idref" href="#v:17"><span class="id" title="binder">v</span></a> := <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#vFromInit"><span class="id" title="definition">vFromInit</span></a>    <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:14"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:15"><span class="id" title="variable">a</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <a id="xAxm:18" class="idref" href="#xAxm:18"><span class="id" title="binder">xAxm</span></a> := <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#xFromInit_correct"><span class="id" title="lemma">xFromInit_correct</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:13"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:14"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:15"><span class="id" title="variable">a</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">let</span> <a id="vAxm:19" class="idref" href="#vAxm:19"><span class="id" title="binder">vAxm</span></a> := <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#vFromInit_correct"><span class="id" title="lemma">vFromInit_correct</span></a>    <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:14"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:15"><span class="id" title="variable">a</span></a> <span class="id" title="tactic">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;@<a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.Pack"><span class="id" title="constructor">MRUV.Pack</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:13"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:14"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:15"><span class="id" title="variable">a</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x:16"><span class="id" title="variable">x</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v:17"><span class="id" title="variable">v</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#xAxm:18"><span class="id" title="variable">xAxm</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#vAxm:19"><span class="id" title="variable">vAxm</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Definimos agora um predicado que pode ser lido "as condições iniciais
+      do modelo <span class="inlinecode"><span class="id" title="var">m</span></span> são <span class="inlinecode"><a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.x0"><span class="id" title="projection">x0</span></a></span> e <span class="inlinecode"><a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.v0"><span class="id" title="projection">v0</span></a></span>" e sua aceleração é <span class="inlinecode"><a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.a"><span class="id" title="projection">a</span></a></span>.
+   
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Definition</span> <a id="modelCond" class="idref" href="#modelCond"><span class="id" title="definition">modelCond</span></a> (<a id="x0:20" class="idref" href="#x0:20"><span class="id" title="binder">x0</span></a> <a id="v0:21" class="idref" href="#v0:21"><span class="id" title="binder">v0</span></a> <a id="a:22" class="idref" href="#a:22"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) (<a id="m:23" class="idref" href="#m:23"><span class="id" title="binder">m</span></a> : <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.model"><span class="id" title="record">MRUV.model</span></a>) : <span class="id" title="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.x0"><span class="id" title="projection">MRUV.x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m:23"><span class="id" title="variable">m</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:20"><span class="id" title="variable">x0</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">/\</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.v0"><span class="id" title="projection">MRUV.v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m:23"><span class="id" title="variable">m</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:21"><span class="id" title="variable">v0</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">/\</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.a"><span class="id" title="projection">MRUV.a</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m:23"><span class="id" title="variable">m</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:22"><span class="id" title="variable">a</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Demônio de <s>La+</s> Laplace 
+</div>
+<div class="code">
+&nbsp;&nbsp;<span class="id" title="keyword">Theorem</span> <a id="laplaceDemon" class="idref" href="#laplaceDemon"><span class="id" title="lemma">laplaceDemon</span></a> (<a id="x0:24" class="idref" href="#x0:24"><span class="id" title="binder">x0</span></a> <a id="v0:25" class="idref" href="#v0:25"><span class="id" title="binder">v0</span></a> <a id="a:26" class="idref" href="#a:26"><span class="id" title="binder">a</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R"><span class="id" title="axiom">R</span></a>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">exists</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">(</span></a><a id="m:27" class="idref" href="#m:27"><span class="id" title="binder">m</span></a> : <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.model"><span class="id" title="record">MRUV.model</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">),</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#modelCond"><span class="id" title="definition">modelCond</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:24"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:25"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:26"><span class="id" title="variable">a</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m:27"><span class="id" title="variable">m</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">/\</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">(</span></a><span class="id" title="keyword">forall</span> (<a id="m':28" class="idref" href="#m':28"><span class="id" title="binder">m'</span></a> : <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.model"><span class="id" title="record">MRUV.model</span></a>), <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#modelCond"><span class="id" title="definition">modelCond</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#x0:24"><span class="id" title="variable">x0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#v0:25"><span class="id" title="variable">v0</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#a:26"><span class="id" title="variable">a</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m':28"><span class="id" title="variable">m'</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#::type_scope:x_'-&gt;'_x"><span class="id" title="notation">-&gt;</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.equiv"><span class="id" title="definition">MRUV.equiv</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m:27"><span class="id" title="variable">m</span></a> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#m':28"><span class="id" title="variable">m'</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#ba2b0e492d2b4675a0acf3ea92aabadd"><span class="id" title="notation">)</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exists</span> (<a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#mruvFromInit"><span class="id" title="definition">mruvFromInit</span></a> <span class="id" title="var">x0</span> <span class="id" title="var">v0</span> <span class="id" title="var">a</span>). <span class="id" title="tactic">split</span>. <span class="id" title="tactic">by</span> [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">move</span> =&gt; [<span class="id" title="var">x0'</span> <span class="id" title="var">v0'</span> <span class="id" title="var">a'</span> <span class="id" title="var">x'</span> <span class="id" title="var">v'</span> <span class="id" title="var">xAxm'</span> <span class="id" title="var">vAxm'</span>] [/= <span class="id" title="var">Hx0'</span> [<span class="id" title="var">Hv0'</span> <span class="id" title="var">Ha'</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">unfold</span> <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.equiv"><span class="id" title="definition">MRUV.equiv</span></a>. <span class="id" title="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id" title="var">have</span> -&gt; : <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.x"><span class="id" title="projection">MRUV.x</span></a> (<a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.Pack"><span class="id" title="constructor">MRUV.Pack</span></a> <span class="id" title="var">xAxm'</span> <span class="id" title="var">vAxm'</span>) <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <span class="id" title="var">x'</span>. <span class="id" title="tactic">by</span> [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">unfold</span> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#xFromInit"><span class="id" title="definition">xFromInit</span></a>. <span class="id" title="tactic">unfold</span> <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.position_axiom"><span class="id" title="definition">MRUV.position_axiom</span></a> <span class="id" title="tactic">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="var">xAxm'</span> <span class="id" title="var">Hx0'</span> <span class="id" title="var">Hv0'</span> <span class="id" title="var">Ha'</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">have</span> -&gt; : <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.v"><span class="id" title="projection">MRUV.v</span></a> (<a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.Pack"><span class="id" title="constructor">MRUV.Pack</span></a> <span class="id" title="var">xAxm'</span> <span class="id" title="var">vAxm'</span>) <a class="idref" href="http://coq.inria.fr/distrib/V8.13.2/stdlib//Coq.Init.Logic.html#6cd0f7b28b6092304087c7049437bb1a"><span class="id" title="notation">=</span></a> <span class="id" title="var">v'</span>. <span class="id" title="tactic">by</span> [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">unfold</span> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#vFromInit"><span class="id" title="definition">vFromInit</span></a>. <span class="id" title="tactic">unfold</span> <a class="idref" href="Pruvaro.Physics.MRUV.Definition.html#MRUV.velocity_axiom"><span class="id" title="definition">MRUV.velocity_axiom</span></a> <span class="id" title="tactic">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">by</span> <span class="id" title="tactic">rewrite</span> <span class="id" title="var">vAxm'</span> <span class="id" title="var">Hv0'</span> <span class="id" title="var">Ha'</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">About</span> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#laplaceDemon"><span class="id" title="lemma">laplaceDemon</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Pruvaro.Physics.MRUV.Uniqueness.html#Uniqueness"><span class="id" title="section">Uniqueness</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+<div id="footer">
+  Generated by <a href="http://coq.inria.fr/">coqdoc</a> and improved with <a href="https://github.com/tebbi/coqdocjs">CoqdocJS</a>
+</div>
+</div>
+</body>
+
+</html>
